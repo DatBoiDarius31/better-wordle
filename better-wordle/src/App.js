@@ -1,7 +1,7 @@
 import { useState } from "react";
 import newWord from "./Api";
 import GetWord from "./components/GetWord";
-import Word from "./components/Word";
+import Guesses from "./components/Guesses";
 
 function App(){
 
@@ -10,7 +10,7 @@ function App(){
   
 
   const handleClick = async () => {
-    const result = await newWord();
+    const result = await getWord();
     setWord(result);
     console.log(result);
   };
@@ -20,7 +20,7 @@ function App(){
   return(
     <div>
       <GetWord onClick = {handleClick}/>
-      <Word letterArray = {letterArray}/>
+      <Guesses letterArray = {letterArray} onSubmit= {handleSubmit}/>
     </div>
   );
 };
