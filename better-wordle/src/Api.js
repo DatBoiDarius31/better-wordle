@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const getWord = async ({ word }) => {
-  if (word == '') {
+  if (word == null) {
+    console.log('got new word');
     const response = await axios.get(
       "https://wordsapiv1.p.rapidapi.com/words/?letters=5",
       {
@@ -15,10 +16,12 @@ const getWord = async ({ word }) => {
         },
       }
     );
+    //console.log(response.data.word);
     return response.data.word;
   }
 
-  else if(word === '') {
+  else if(word != null) {
+    console.log('checked word');
     const response = await axios.get(
         "https://wordsapiv1.p.rapidapi.com/words/{word}",
         {
@@ -32,8 +35,16 @@ const getWord = async ({ word }) => {
           },
         }
       );
-      return response.data.word;
+      if(response.ok){
+        console.log("word exist");
+      }
+      else if(response.status === 404){
+        console.log("word does not exist");
+      }
+      else{
+        console.log("something broke");
+      }    
   }
 };
 
-export default newWord;
+export default getWord;

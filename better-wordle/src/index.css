@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#almost{
+    background-color: #b59f3b !important;
+    border: 0ch;
+   
+}
+
+#correct{
+    background-color: #538d4e !important;
+    border: 0;
+    
+}
+
+#error{
+    background-color: #86888a !important;
+    border: 0;
+}
