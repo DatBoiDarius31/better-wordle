@@ -8,7 +8,7 @@ function GetWord({onClick}) {
 
     return (
         <div>
-            <form id = "button" onClick = {handleFormClick} >
+            <form className="flex justify-center" id = "button" onClick = {handleFormClick} >
                 <button >
                     Get Random Word
                  </button> 
