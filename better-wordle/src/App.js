@@ -6,6 +6,7 @@ import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
 import "./index.css";
 import { useEffect } from "react";
+import checkWord from "./CheckWord";
 
 export const AppContext = createContext();
 
@@ -14,6 +15,19 @@ function App() {
   const [board, setBoard] = useState(blankBoard);
   const [currAtt, setCurrAtt] = useState({ attempt: 0, letterPos: 0 });
   const correctWord = "";
+
+  const stop = useCallback(() => {
+    return null;
+  }, []);
+
+useEffect(() => {
+    async function fetchData(){
+    const result = await getWord("");
+    setWord(result);
+    console.log(result);
+    }
+    fetchData();
+  }, [stop]);
 
   const onSelectLetter = (keyVal) => {
     if (currAtt.letterPos > 4) return;
@@ -33,21 +47,27 @@ function App() {
 
   const onEnter = () => {
     if (currAtt.letterPos !== 5) return;
-    setCurrAtt({ attempt: currAtt.attempt + 1, letterPos: 0 });
+
+    let currWord = "";
+
+    for (let i = 0; i < 5; i ++){
+      currWord += board[currAtt.attempt][i];
+    }
+    console.log(currWord);
+    currWord = currWord.toLowerCase();
+
+    if(checkWord(currWord)){
+      setCurrAtt({ attempt: currAtt.attempt + 1, letterPos: 0 });
+    }
+    else{
+      alert("Word not found");
+    }
+    
   };
 
-  const stop = useCallback(() => {
-    return null;
-  }, []);
+ 
 
-  useEffect(() => {
-    async function fetchData(){
-    const result = await getWord("");
-    setWord(result);
-    console.log(result);
-    }
-    fetchData();
-  }, [stop]);
+  
 
   return (
     <div className=" h-screen bg-cover bg-neutral-800 w-auto">
