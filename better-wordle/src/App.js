@@ -7,6 +7,8 @@ import Keyboard from "./components/Keyboard";
 import "./index.css";
 import { useEffect } from "react";
 import checkWord from "./CheckWord";
+import GameOver from "./components/GameOver";
+import Hint from "./components/Hint";
 
 export const AppContext = createContext();
 
@@ -14,7 +16,11 @@ function App() {
   const [word, setWord] = useState("");
   const [board, setBoard] = useState(blankBoard);
   const [currAtt, setCurrAtt] = useState({ attempt: 0, letterPos: 0 });
-  const correctWord = "";
+  const [guessedLetters, setGuessedLetters] = useState([]);
+  const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false});
+  const [animate, setAnimate] = useState(false);
+
+  let doAnimate = null;
 
   const stop = useCallback(() => {
     return null;
@@ -45,7 +51,7 @@ useEffect(() => {
     setCurrAtt({ ...currAtt, letterPos: currAtt.letterPos - 1 });
   };
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (currAtt.letterPos !== 5) return;
 
     let currWord = "";
@@ -56,11 +62,27 @@ useEffect(() => {
     console.log(currWord);
     currWord = currWord.toLowerCase();
 
-    if(checkWord(currWord)){
+    if( await checkWord(currWord)){
       setCurrAtt({ attempt: currAtt.attempt + 1, letterPos: 0 });
+      doAnimate = true;
+      setAnimate(doAnimate);
     }
     else{
-      alert("Word not found");
+      doAnimate = false;
+      setAnimate(doAnimate);
+    }
+
+    if( currWord === word){
+      setGameOver({gameOver: true, guessedWord: true});
+      doAnimate = true;
+      setAnimate(doAnimate);
+      return;
+    }
+
+    if(currAtt.attempt === 5){
+      setGameOver({gameOver: true, guessedWord: false});
+      console.log("loser")
+      return;
     }
     
   };
@@ -74,9 +96,10 @@ useEffect(() => {
       <h1 className="text-4xl pb-2 flex justify-center text-white border-b-2" >
         Better Wordle
       </h1 >
-      <AppContext.Provider value={{ board, setBoard, currAtt, setCurrAtt,onDel,onEnter,onSelectLetter,word,getWord}}>
+      <AppContext.Provider value={{ board, setBoard, currAtt, setCurrAtt,onDel,onEnter,onSelectLetter,word,getWord,guessedLetters,setGuessedLetters,setGameOver,gameOver,animate}}>
         <Board />
-        <Keyboard />
+        {gameOver.gameOver ? <GameOver/> : <Keyboard />}
+        <Hint/>
       </AppContext.Provider>
     </div>
   );

@@ -3,7 +3,7 @@ import axios from "axios";
 const checkWord = async ( currWord ) => {
     console.log('checked word');
     try{
-    const response = await axios.get(
+      const response = await axios.get(
         "https://wordsapiv1.p.rapidapi.com/words/"+currWord,
         {
           headers: {
@@ -12,17 +12,19 @@ const checkWord = async ( currWord ) => {
             "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
           },
         }
-      );
-    }catch (err){
-        console.error("Error response:");
-        console.error(err.response.data);    
-        console.error(err.response.status);  
-        console.error(err.response.headers); 
-        console.log("false");
-        return false;
+      )
+      if (response.status === 200) { // response - object, eg { status: 200, message: 'OK' }
+      console.log('success stuff');
+     return true;
     }
-    console.log("true");
+    else if(response.status === 404){
+      console.log("word not found");
+      return false;
+    }
+  }catch(error){
+    return false;
   }
+}
 
   export default checkWord;
 

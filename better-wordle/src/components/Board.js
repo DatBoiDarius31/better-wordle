@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Letter from "./Letter";
 import '../index.css';
 
-
 function Board() {
   
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col pt-3">
       <div className="flex flex-row justify-center gap-1 py-1">
         <Letter LetterPos={0} attemptVal={0} />
         <Letter LetterPos={1} attemptVal={0} />

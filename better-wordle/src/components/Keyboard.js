@@ -6,7 +6,7 @@ import { useContext } from 'react';
 
 function Keyboard() {
 
-  const {onSelectLetter,onDel,onEnter} = useContext(AppContext);  
+  const {onSelectLetter,onDel,onEnter,guessedLetters} = useContext(AppContext);  
 
   const keys1 = ["Q","W","E","R","T","Y","U","I","O","P"];
   const keys2 = ["A","S","D","F","G","H","J","K","L"];
@@ -50,21 +50,21 @@ function Keyboard() {
 
 
   return (
-    <div>
+    <div className='pt-3'>
       <div className='flex justify-center gap-2 p-1 w-auto' onKeyDown={handleKeyboard}>
         {keys1.map((key) => {
-        return <Key keyVal = {key}/>;
+        return <Key keyVal = {key} guessed={guessedLetters.includes(key)}/>;
         })}
       </div>
       <div className='flex justify-center gap-2 p-1'>
       {keys2.map((key) => {
-        return <Key keyVal = {key} bigKey/>;
+        return <Key keyVal = {key} bigKey guessed={guessedLetters.includes(key)}/>;
         })}
       </div>
       <div className='flex justify-center gap-2 p-1'>
         <Key keyVal={"Enter"}/>
       {keys3.map((key) => {
-        return <Key keyVal = {key}/>;
+        return <Key keyVal = {key} guessed={guessedLetters.includes(key)}/>;
         })}
         <Key keyVal={"Del"} bigKey/>
       </div>
