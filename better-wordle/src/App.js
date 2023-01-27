@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import checkWord from "./CheckWord";
 import GameOver from "./components/GameOver";
 import Hint from "./components/Hint";
+import GetHints from "./GetHints";
 
 export const AppContext = createContext();
 
@@ -19,7 +20,8 @@ function App() {
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false});
   const [animate, setAnimate] = useState(false);
-
+  const [hints , setHints] = useState({syllables: "Syllables", type: "Type", speech: "Speech", def: "Definition"});
+  let wordHints = {};
   let doAnimate = null;
 
   const stop = useCallback(() => {
@@ -31,7 +33,13 @@ useEffect(() => {
     const result = await getWord("");
     setWord(result);
     console.log(result);
+    const wordHints = await GetHints(result);
+    console.log(wordHints);
+    if(wordHints === false){
+      fetchData();
     }
+    setHints({syllables: wordHints.syllables, type: wordHints.type, speech: wordHints.speech, def: wordHints.def});
+  }
     fetchData();
   }, [stop]);
 
@@ -96,10 +104,10 @@ useEffect(() => {
       <h1 className="text-4xl pb-2 flex justify-center text-white border-b-2" >
         Better Wordle
       </h1 >
-      <AppContext.Provider value={{ board, setBoard, currAtt, setCurrAtt,onDel,onEnter,onSelectLetter,word,getWord,guessedLetters,setGuessedLetters,setGameOver,gameOver,animate}}>
+      <AppContext.Provider value={{ board, setBoard, currAtt, setCurrAtt,onDel,onEnter,onSelectLetter,word,getWord,guessedLetters,setGuessedLetters,setGameOver,gameOver,animate,hints,setHints}}>
         <Board />
         {gameOver.gameOver ? <GameOver/> : <Keyboard />}
-        <Hint/>
+        < Hint {...hints}/>
       </AppContext.Provider>
     </div>
   );

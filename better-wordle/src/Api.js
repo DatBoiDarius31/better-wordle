@@ -3,7 +3,7 @@ import axios from "axios";
 const getWord = async () => {
     console.log('got new word');
     const response = await axios.get(
-      "https://wordsapiv1.p.rapidapi.com/words/?letters=5",
+      "https://wordsapiv1.p.rapidapi.com/words/",
       {
         headers: {
           "X-RapidAPI-Key":
@@ -11,11 +11,14 @@ const getWord = async () => {
           "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
         },
         params: {
-          random: "true",
+          letters: '5',
+          hasDetails: 'typeOf',
+          random: 'true'
+          
         },
       }
     );
-    //console.log(response.data.word);
+    console.log(response);
     return response.data.word;
   }
 
