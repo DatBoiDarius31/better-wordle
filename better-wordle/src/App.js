@@ -104,7 +104,7 @@ useEffect(() => {
       <h1 className="text-4xl pb-2 flex justify-center text-white border-b-2" >
         Better Wordle
       </h1 >
-      <AppContext.Provider value={{ board, setBoard, currAtt, setCurrAtt,onDel,onEnter,onSelectLetter,word,getWord,guessedLetters,setGuessedLetters,setGameOver,gameOver,animate,hints,setHints}}>
+      <AppContext.Provider value={{ board, setBoard, currAtt, setCurrAtt,onDel,onEnter,onSelectLetter,word,getWord,guessedLetters,setGuessedLetters,setGameOver,gameOver,animate,hints}}>
         <Board />
         {gameOver.gameOver ? <GameOver/> : <Keyboard />}
         < Hint {...hints}/>

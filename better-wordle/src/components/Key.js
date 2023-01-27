@@ -22,7 +22,7 @@ function Key({keyVal, guessed}) {
         
     }
   return (
-    <div className="md:text-4xl p-1 bg-[#939598] text-white md:w-10 md:min-w-fit md:h-14 rounded-sm flex justify-center align-middle w-6 min-w-fit h-10 text-2xl " id = {guessed && "guessed"} onClick={selectLetter} >
+    <div className="md:text-4xl p-1 bg-[#939598] text-white md:w-10 md:min-w-fit md:h-14 rounded-sm flex justify-center align-middle w-6 min-w-fit h-10 text-2xl hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-100 hover:cursor-pointer " id = {guessed && "guessed"} onClick={selectLetter} >
       {keyVal}
     </div>
   )
